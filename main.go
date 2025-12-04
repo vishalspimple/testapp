@@ -1,19 +1,23 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	http.HandleFunc("/hello", helloHandler)
+	// Create a default Gin router
+	r := gin.Default()
 
-	fmt.Println("Server running on :8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	// Define a simple GET route
+	r.GET("/hello", helloHandler)
+
+	// Start the server on port 8080
+	if err := r.Run(":8080"); err != nil {
 		panic(err)
 	}
 }
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, GoCI Lint!")
+// helloHandler handles the /hello route
+func helloHandler(c *gin.Context) {
+	c.String(200, "Hello, GoCI Lint with Gin!")
 }
